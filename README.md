@@ -3,7 +3,7 @@
 ### Run
 
 ```
-# curl https://raw.githubusercontent.com/radys/CTFd/main/install.sh | sh
+# curl https://raw.githubusercontent.com/radys/CTFd-install/main/install.sh | sh
 
 # docker images
 REPOSITORY   TAG               IMAGE ID       CREATED          SIZE
