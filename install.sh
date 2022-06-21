@@ -15,7 +15,8 @@ apt install -y docker-ce
 # git diff 7d56e59 919b9d0 > ../honeypot.patch
 
 apt install -y jq git
-CTFD=$(curl -sL https://api.github.com/repos/CTFd/CTFd/releases/latest | jq -r ".tag_name")
+#CTFD=$(curl -sL https://api.github.com/repos/CTFd/CTFd/releases/latest | jq -r ".tag_name")
+CTFD="3.4.3"
 
 cd /srv && git clone https://github.com/CTFd/CTFd.git && cd /srv/CTFd
 git checkout $CTFD
