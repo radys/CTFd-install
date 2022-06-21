@@ -20,6 +20,12 @@ CTFD=$(curl -sL https://api.github.com/repos/CTFd/CTFd/releases/latest | jq -r "
 cd /srv && git clone https://github.com/CTFd/CTFd.git && cd /srv/CTFd
 git checkout $CTFD
 
+# --- hCaptcha ---
+
+cd /srv/CTFd/CTFd/plugins
+git clone https://github.com/tamuctf/ctfd-recaptcha-plugin.git
+echo "pip install -r CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt" >> /srv/CTFd/prepare.sh
+
 docker build --tag="radys/ctfd:latest" --tag="radys/ctfd:$CTFD" .
 
 # --- CTFD HONEYPOT ---
