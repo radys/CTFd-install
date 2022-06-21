@@ -31,7 +31,7 @@ build:
     
     # Captcha for CTFd
     - 'echo "Captcha for CTFd"'
-    - git clone -C CTFd/plugins https://github.com/tamuctf/ctfd-recaptcha-plugin.git
+    - git clone https://github.com/tamuctf/ctfd-recaptcha-plugin.git CTFd/plugins/ctfd-recaptcha-plugin
     - echo "pip install -r CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt" >> prepare.sh
 
     # Build and push CTFd
