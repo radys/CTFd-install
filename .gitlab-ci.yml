@@ -31,12 +31,8 @@ build:
     
     # Captcha for CTFd
     - 'echo "Captcha for CTFd"'
-    - pwd
-    - ls -al
     - cd CTFd/plugins && git clone https://github.com/tamuctf/ctfd-recaptcha-plugin.git
-    - pwd
-    - ls -al
-    - echo "pip install -r CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt" >> CTFd/prepare.sh
+    - echo "pip install -r CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt" >> prepare.sh
 
     # Build and push CTFd
     - docker build --tag "$CI_REGISTRY_IMAGE:latest" --tag="$CI_REGISTRY_IMAGE:$CTFD" .
