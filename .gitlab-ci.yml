@@ -28,6 +28,11 @@ build:
 
     # Fast building with cached latest image
     - docker pull "$CI_REGISTRY_IMAGE:latest" || true
+    
+    # Captcha for CTFd
+    - cd CTFd/plugins
+    - git clone https://github.com/tamuctf/ctfd-recaptcha-plugin.git
+    - echo "pip install -r CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt" >> /srv/CTFd/prepare.sh
 
     # Build and push CTFd
     - docker build --tag "$CI_REGISTRY_IMAGE:latest" --tag="$CI_REGISTRY_IMAGE:$CTFD" .
