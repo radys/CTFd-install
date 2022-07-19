@@ -18,7 +18,16 @@ apt install -y jq git
 CTFD=$(curl -sL https://api.github.com/repos/CTFd/CTFd/releases/latest | jq -r ".tag_name")
 
 cd /srv && git clone https://github.com/CTFd/CTFd.git && cd /srv/CTFd
+
+### Version 3.4.3 -> 3.5.0, 20220719
+### Patch SQLlite: https://github.com/CTFd/CTFd/commit/a2c81cb03a398f3ca1819642b8e8dba181dccb22
+cp CTFd/utils/exports/__init__.py /srv/__init__.py
+
 git checkout $CTFD
+
+### Version 3.4.3 -> 3.5.0, 20220719
+### Patch SQLlite: https://github.com/CTFd/CTFd/commit/a2c81cb03a398f3ca1819642b8e8dba181dccb22
+mv /srv/__init__.py CTFd/utils/exports/__init__.py
 
 # --- hCaptcha ---
 
