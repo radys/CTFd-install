@@ -34,6 +34,10 @@ build:
     - git clone https://github.com/tamuctf/ctfd-recaptcha-plugin.git CTFd/plugins/ctfd-recaptcha-plugin
     - echo "pip install -r CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt" >> prepare.sh
 
+    # VPN plugin - Kostej & Bodik
+    - echo "namedatomiclock" >> CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt
+    - echo "python-dotenv" >> CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt
+
     # Build and push CTFd
     - docker build --tag "$CI_REGISTRY_IMAGE:latest" --tag="$CI_REGISTRY_IMAGE:$CTFD" .
     - docker push "$CI_REGISTRY_IMAGE:latest"
