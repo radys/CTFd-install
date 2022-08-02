@@ -1,5 +1,4 @@
 stages:
-  - test
   - build
   - deploy
 
@@ -12,14 +11,15 @@ services:
 - docker:dind
 
 before_script:
-- docker info
 - apk update
-- apk upgrade
+#- apk upgrade
 - apk add curl jq git
 
-test:
-  stage: test
+    
+build_clone:
+  stage: build
   script:
+  
     - export CTFD=$(curl -sL https://api.github.com/repos/CTFd/CTFd/releases/latest | jq -r ".tag_name")
     - 'echo "Current CTFd release: $CTFD"'
 
@@ -30,11 +30,6 @@ test:
     - docker pull "$CI_REGISTRY_IMAGE:$CTFD" || true
     - export SKIP_BUILD=$(docker image inspect "$CI_REGISTRY_IMAGE:$CTFD" >/dev/null 2>&1 && echo yes || echo no)
     - \[ "$SKIP_BUILD" = "yes" \] && 'echo "Newer relase version does not exists" && exit 0'
-    
-build_clone:
-  stage: build
-  needs: [test]
-  script:
 
     # Fast building with cached latest image
     - docker pull "$CI_REGISTRY_IMAGE:latest" || true
