@@ -39,7 +39,6 @@ build:
     - sed -i 's/apt install/apt-get install -y/' CTFd/plugins/ctfd_ovpn/initialize.sh
 
     - sed -i '/^COPY \..*/a RUN chown -R 1001:1001 \/var\/lib\/ctfd_ovpn' Dockerfile
-    - sed -i '/^COPY \..*/a RUN mkdir -p \/var\/lib\/ctfd_ovpn' Dockerfile
     - sed -i '/^COPY \..*/a RUN \/opt\/CTFd\/CTFd\/plugins\/ctfd_ovpn\/initialize.sh' Dockerfile
     
     - docker build --tag "$CI_REGISTRY_IMAGE:latest" --tag="$CI_REGISTRY_IMAGE:$CTFD" .
