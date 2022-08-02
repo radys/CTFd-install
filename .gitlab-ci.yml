@@ -32,15 +32,14 @@ build:
     # Captcha for CTFd
     - 'echo "Captcha for CTFd"'
     - git clone https://github.com/tamuctf/ctfd-recaptcha-plugin.git CTFd/plugins/ctfd-recaptcha-plugin
-    - echo "pip install -r CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt" >> prepare.sh
+    #- echo "pip install -r CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt" >> prepare.sh
 
     # VPN plugin - Kostej & Bodik
     - git clone https://gitlab.flab.cesnet.cz/kostej/ctfd_ovpn.git CTFd/plugins/ctfd_ovpn
-    # - echo "namedatomiclock" >> CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt
-    # - echo "python-dotenv" >> CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt
     - echo "pip install -r CTFd/plugins/ctfd_ovpn/requirements.txt" >> prepare.sh
     - echo "sh CTFd/plugins/ctfd_ovpn/initialize.sh" >> prepare.sh    
     - echo "chmod -R 777 /var/lib/ctfd_ovpn" >> prepare.sh
+    - cat prepare.sh
 
     # Build and push CTFd
     - docker build --tag "$CI_REGISTRY_IMAGE:latest" --tag="$CI_REGISTRY_IMAGE:$CTFD" .
