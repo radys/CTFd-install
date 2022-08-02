@@ -35,6 +35,7 @@ build:
     # VPN plugin - Kostej, Bodik
     - 'echo "VPN plugin - Kostej, Bodik"'
     - git clone https://gitlab.flab.cesnet.cz/kostej/ctfd_ovpn.git CTFd/plugins/ctfd_ovpn
+    - sed -i '/apt install/apt-get install -y/' CTFd/plugins/ctfd_ovpn/initialize.sh 
 
     - sed -i '/^COPY \..*/a RUN chown -R 1001:1001 \/var\/lib\/ctfd_ovpn' Dockerfile
     - sed -i '/^COPY \..*/a RUN mkdir -P \/var\/lib\/ctfd_ovpn' Dockerfile
