@@ -39,9 +39,8 @@ build:
     # - echo "namedatomiclock" >> CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt
     # - echo "python-dotenv" >> CTFd/plugins/ctfd-recaptcha-plugin/requirements.txt
     - echo "pip install -r CTFd/plugins/ctfd_ovpn/requirements.txt" >> prepare.sh
-    # Ve skriptu nahrazen apt vs apk, jinak byl initialize.sh
-    - sh CTFd/plugins/ctfd_ovpn/initialize_alpine.sh
-    - chmod -R 777 /var/lib/ctfd_ovpn
+    - echo "sh CTFd/plugins/ctfd_ovpn/initialize.sh" >> prepare.sh    
+    - echo "chmod -R 777 /var/lib/ctfd_ovpn" >> prepare.sh
 
     # Build and push CTFd
     - docker build --tag "$CI_REGISTRY_IMAGE:latest" --tag="$CI_REGISTRY_IMAGE:$CTFD" .
