@@ -13,7 +13,7 @@ before_script:
 - apk add curl jq git
 
 pull:
-  stage: pull
+  stage: build
   script:
     - export CTFD=$(curl -sL https://api.github.com/repos/CTFd/CTFd/releases/latest | jq -r ".tag_name")
     - 'echo "Current CTFd release: $CTFD"'
@@ -30,7 +30,7 @@ pull:
     - docker pull "$CI_REGISTRY_IMAGE:latest" || true
     
 clone:
-  stage: clone
+  stage: build
   script:
     # Captcha for CTFd
     - 'echo "Captcha for CTFd"'
@@ -41,7 +41,7 @@ clone:
     - git clone https://gitlab.flab.cesnet.cz/kostej/ctfd_ovpn.git CTFd/plugins/ctfd_ovpn
 
 prepare:
-  stage: prepare
+  stage: build
   script:
     - sed -i '/^COPY.*/a RUN chown -R 1001:1001 \/var\/lib\/ctfd_ovpn' Dockerfile
     - sed -i '/^COPY.*/a RUN mkdir -P \/var\/lib\/ctfd_ovpn' Dockerfile
@@ -52,24 +52,24 @@ prepare:
     #- cat Dockerfile
     
 build-ctfd:
-  stage: build-ctfd
+  stage: build
   script:
     - docker build --tag "$CI_REGISTRY_IMAGE:latest" --tag="$CI_REGISTRY_IMAGE:$CTFD" .
-
-push-ctfd:
-  stage: push-ctfd
-  script:
-    - docker push "$CI_REGISTRY_IMAGE:latest"
-    - docker push "$CI_REGISTRY_IMAGE:$CTFD"
     
 build-ctfd-honeypot:
-  stage: build-ctfd-honeypot
+  stage: build
   script:
     - curl https://raw.githubusercontent.com/radys/CTFd-install/main/honeypot.patch | git apply -v
     - docker build --tag="$CI_REGISTRY_IMAGE:honeypot" --tag="$CI_REGISTRY_IMAGE:honeypot-$CTFD" .
 
+push-ctfd:
+  stage: deploy
+  script:
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+    - docker push "$CI_REGISTRY_IMAGE:$CTFD"
+
 push-ctfd-honeypot:
-  stage: push-ctfd-honeypot
+  stage: deploy
   script:
     - docker push "$CI_REGISTRY_IMAGE:honeypot"
     - docker push "$CI_REGISTRY_IMAGE:honeypot-$CTFD"
