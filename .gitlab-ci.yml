@@ -40,8 +40,8 @@ build:
     #- echo "pip install -r CTFd/plugins/ctfd_ovpn/requirements.txt" >> prepare.sh
     - sed -i '/^WORKDIR.*/a RUN chown -R 1001:1001 \/var\/lib\/ctfd_ovpn' Dockerfile
     - sed -i '/^WORKDIR.*/a RUN mkdir -P \/var\/lib\/ctfd_ovpn' Dockerfile
-    - sed -i '/^WORKDIR.*/a RUN \/opt\/CTFd\/CTFd\/plugins\/ctfd_ovpn\/initialize.sh' Dockerfile
-    - sed -i '/^WORKDIR.*/a RUN ls -al \/opt\/CTFd\/CTFd\/plugins\/' Dockerfile
+    - sed -i '/^WORKDIR.*/a RUN \/opt\/CTFd\/plugins\/ctfd_ovpn\/initialize.sh' Dockerfile
+    - sed -i '/^WORKDIR.*/a RUN ls -al \/opt\/CTFd\/plugins\/' Dockerfile
     - cat Dockerfile
 
     # Build and push CTFd
