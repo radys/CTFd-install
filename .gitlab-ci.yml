@@ -38,9 +38,10 @@ build:
     - 'echo "VPN plugin - Kostej, Bodik"'
     - git clone https://gitlab.flab.cesnet.cz/kostej/ctfd_ovpn.git CTFd/plugins/ctfd_ovpn
     #- echo "pip install -r CTFd/plugins/ctfd_ovpn/requirements.txt" >> prepare.sh
-    - sed '/^WORKDIR.*/a RUN chown -R 1001:1001 \/var\/lib\/ctfd_ovpn' Dockerfile
-    - sed '/^WORKDIR.*/a RUN mkdir -P \/var\/lib\/ctfd_ovpn' Dockerfile
-    - sed '/^WORKDIR.*/a RUN sh CTFd\/plugins\/ctfd_ovpn\/initialize.sh' Dockerfile
+    - sed -i '/^WORKDIR.*/a RUN chown -R 1001:1001 \/var\/lib\/ctfd_ovpn' Dockerfile
+    - sed -i '/^WORKDIR.*/a RUN mkdir -P \/var\/lib\/ctfd_ovpn' Dockerfile
+    - sed -i '/^WORKDIR.*/a RUN sh CTFd\/plugins\/ctfd_ovpn\/initialize.sh' Dockerfile
+    - cat Dockerfile
 
     # Build and push CTFd
     - 'echo "Build and push CTFd"'
