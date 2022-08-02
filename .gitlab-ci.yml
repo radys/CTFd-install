@@ -1,7 +1,3 @@
-stages:
-  - build
-  - deploy
-
 image: docker:latest
 
 variables:
@@ -10,16 +6,14 @@ variables:
 services:
 - docker:dind
 
-before_script:
-- apk update
-#- apk upgrade
-- apk add curl jq git
-
-    
-build_clone:
+build:
   stage: build
+  before_script:
+    - apk update
+    #- apk upgrade
+    - apk add curl jq git
+
   script:
-  
     - export CTFD=$(curl -sL https://api.github.com/repos/CTFd/CTFd/releases/latest | jq -r ".tag_name")
     - 'echo "Current CTFd release: $CTFD"'
 
@@ -42,10 +36,6 @@ build_clone:
     - 'echo "VPN plugin - Kostej, Bodik"'
     - git clone https://gitlab.flab.cesnet.cz/kostej/ctfd_ovpn.git CTFd/plugins/ctfd_ovpn
 
-build_prepare:
-  stage: build
-  needs: [build_clone]
-  script:
     - sed -i '/^COPY.*/a RUN chown -R 1001:1001 \/var\/lib\/ctfd_ovpn' Dockerfile
     - sed -i '/^COPY.*/a RUN mkdir -P \/var\/lib\/ctfd_ovpn' Dockerfile
     - sed -i '/^COPY.*/a RUN \/opt\/CTFd\/plugins\/ctfd_ovpn\/initialize.sh' Dockerfile
@@ -54,30 +44,13 @@ build_prepare:
     #- sed -i '/^COPY.*/a RUN pwd' Dockerfile
     #- cat Dockerfile
     
-build_ctfd:
-  stage: build
-  needs: [build_prepare]
-  script:
     - docker build --tag "$CI_REGISTRY_IMAGE:latest" --tag="$CI_REGISTRY_IMAGE:$CTFD" .
-    
-build_ctfd-honeypot:
-  stage: build
-  needs: [build_prepare]
-  script:
     - curl https://raw.githubusercontent.com/radys/CTFd-install/main/honeypot.patch | git apply -v
     - docker build --tag="$CI_REGISTRY_IMAGE:honeypot" --tag="$CI_REGISTRY_IMAGE:honeypot-$CTFD" .
 
-deploy_ctfd:
-  stage: deploy
-  needs: [build_ctfd]
-  script:
     - docker push "$CI_REGISTRY_IMAGE:latest"
     - docker push "$CI_REGISTRY_IMAGE:$CTFD"
 
-deploy_ctfd-honeypot:
-  stage: deploy
-  needs: [build_ctfd-honeypot]
-  script:
     - docker push "$CI_REGISTRY_IMAGE:honeypot"
     - docker push "$CI_REGISTRY_IMAGE:honeypot-$CTFD"
 
