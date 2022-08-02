@@ -29,7 +29,7 @@ test:
     # If version exists than false
     - docker pull "$CI_REGISTRY_IMAGE:$CTFD" || true
     - export SKIP_BUILD=$(docker image inspect "$CI_REGISTRY_IMAGE:$CTFD" >/dev/null 2>&1 && echo yes || echo no)
-    - \[ "$SKIP_BUILD" = "yes" \] && 'echo "Newer relase version does not exists"' && exit 0
+    - \[ "$SKIP_BUILD" = "yes" \] && 'echo "Newer relase version does not exists" && exit 0'
     
 build_clone:
   stage: build
